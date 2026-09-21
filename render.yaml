@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: ucas-careersync-ai
+    runtime: node
+    plan: free
+    region: singapore
+    # This MUST be the branch that actually contains backend/server.js on
+    # GitHub.com (check in the browser, not just locally) — a mismatch here
+    # silently deploys the wrong commit and can itself cause
+    # "Cannot find module backend/server.js". Change it if your default
+    # branch is not "main".
+    branch: main
+    # rootDir tells Render where package.json / backend / frontend live,
+    # RELATIVE TO THE REPO ROOT. Leave this as "." only if package.json is
+    # at the top level of your GitHub repo (i.e. GitHub shows backend/,
+    # frontend/, package.json, render.yaml directly at the repo root).
+    # If instead your repo has an extra wrapper folder (e.g. you dragged
+    # the whole "ucas-careersync-ai-fullstack" folder into GitHub, so GitHub
+    # shows ucas-careersync-ai-fullstack/backend/server.js), THIS is the
+    # #1 cause of "Cannot find module '.../src/backend/server.js'" — set
+    # rootDir to that folder name instead, e.g.:
+    #   rootDir: ucas-careersync-ai-fullstack
+    rootDir: .
+    buildCommand: npm install
+    startCommand: npm start
+    # Render calls this path on the running server to confirm the deploy is
+    # healthy. /health is a zero-dependency liveness check (server.js);
+    # /api/health additionally verifies the database connection.
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.11.0
+      - key: JWT_SECRET
+        generateValue: true
+      # Set these manually in the Render dashboard after first deploy —
+      # they are secrets and must never be committed to the repo:
+      #   FIRST_ADMIN_EMAIL
+      #   FIRST_ADMIN_PASSWORD
+      #   AI_PROVIDER, GEMINI_API_KEY or OPENAI_API_KEY (optional)
+      #   SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, SMTP_FROM (optional)
+      #   SMS_ACCOUNT_SID, SMS_AUTH_TOKEN, SMS_FROM (optional)
+    autoDeploy: true

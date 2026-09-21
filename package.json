@@ -1,0 +1,18 @@
+{
+  "name": "ucas-careersync-ai",
+  "version": "1.0.0",
+  "description": "UCAS CareerSync AI — full-stack app: real backend (Node built-ins only, node:sqlite database), real frontend, single deployable service.",
+  "private": true,
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node boot.js",
+    "start:direct": "node backend/server.js",
+    "migrate": "node backend/migrate.js",
+    "seed:admin": "node backend/seed.js",
+    "build": "echo \"No build step — plain Node.js, no bundler required.\"",
+    "test": "node backend/test-api.js"
+  },
+  "engines": { "node": ">=22.5.0" },
+  "dependencies": {},
+  "license": "UNLICENSED"
+}
